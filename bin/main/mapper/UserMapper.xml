@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ho.example.mapper.UserMapper">
+	
+	<!-- 권한 읽기 -->
+    <select id="readAuthorities" parameterType="String" resultType="org.springframework.security.core.authority.SimpleGrantedAuthority">
+       SELECT         u_auth
+       FROM         ho_auth
+       WHERE          1=1
+       AND            u_id = #{username}
+    </select>
+
+  <!--  회원 불러오기 -->
+   <select id="readUser" parameterType="String" resultType="User">
+   SELECT     	u_id 	            	    as username,
+                u_password      			as password,
+                u_name               		as uName,
+                u_age						as uAge,
+                u_email					 	as uEmail,
+                u_phone1					as uPhone1,
+                u_phone2					as uPhone2,
+                u_phone3					as uPhone3,
+                isAccountNonExpired        	as isAccountNonExpired,
+                isAccountNonLocked    	    as isAccountNonLocked,
+                isCredentialsNonExpired    	as isCredentialsNonExpired,
+                isEnabled          		    as isEnabled
+   FROM         user
+   WHERE         1=1
+   AND            u_id   =   #{username}
+  </select>
+ 
+  
+   <!-- 회원 등록 -->
+   <insert id="createUser" parameterType="User">
+      INSERT INTO user (
+         u_id,
+         u_password,
+         u_name,
+         u_age,
+         u_email,
+         u_phone1,
+         u_phone2,
+         u_phone3,
+       	 isAccountNonExpired,
+         isAccountNonLocked,
+         isCredentialsNonExpired,
+         isEnabled
+   
+      ) VALUES (
+         #{username},
+         #{password},
+         #{uName},
+         #{uAge},
+         #{uEmail},
+         #{uPhone1},
+         #{uPhone2},
+         #{uPhone3},
+         #{isAccountNonExpired},
+         #{isAccountNonLocked},
+         #{isCredentialsNonExpired},
+         #{isEnabled}
+      )
+       
+   </insert>  
+   	<!-- 회원정보 수정(비밀번호 제외) -->
+    <update id="updateUser" parameterType="User">
+      UPDATE user SET
+         u_email = #{uEmail},
+         u_phone1 = #{uPhone1},
+         u_phone2 = #{uPhone2},
+         u_phone3 = #{uPhone3}
+      WHERE u_id = #{username}
+       
+   </update>  
+   
+   <!-- 비밀번호 변경 -->
+    <update id="pwUpdate" parameterType="User">
+     
+      UPDATE user SET
+         u_password = #{password}
+      WHERE u_id = #{username}
+       
+   </update>
+   
+   	<!-- 회원정보 가져오기 -->
+    <select id="userInfo" parameterType="String" resultType="User">
+   SELECT     	u_id 	            	    as username,
+                u_password      			as password,
+                u_name               		as uName,
+                u_age						as uAge,
+                u_email					 	as uEmail,
+                u_phone1					as uPhone1,
+                u_phone2					as uPhone2,
+                u_phone3					as uPhone3,
+                isAccountNonExpired        	as isAccountNonExpired,
+                isAccountNonLocked    	    as isAccountNonLocked,
+                isCredentialsNonExpired    	as isCredentialsNonExpired,
+                isEnabled          		    as isEnabled
+   FROM         user
+   WHERE         1=1
+   AND            u_id   =   #{username}
+  </select> 
+   
+   <!-- 회원 탈퇴하기 -->
+   <delete id="userDelete" parameterType="User">
+   Delete from user
+   Where u_id = #{username}
+   </delete>
+   
+   
+    <!-- 유저 권한 추가 -->
+    <insert id="createAuthority" parameterType="org.springframework.security.core.GrantedAuthority">
+       INSERT INTO ho_auth (
+          u_id,
+          u_auth
+       ) VALUES
+         <foreach item="authority" index="index" collection="authorities" separator=",">
+            (#{username}, #{authority.role})
+         </foreach>
+         ON DUPLICATE KEY
+         UPDATE
+            u_id = #{username}
+    </insert>
+</mapper>
