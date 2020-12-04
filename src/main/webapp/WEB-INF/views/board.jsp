@@ -12,8 +12,7 @@
 	<h2>자유 게시판</h2>
 	<input type="button" value="메인화면으로" id=btn-main><div style="text-align:center"><p><input type="button" value="글쓰기" id=btn-write></p></div>
 	
-		<%-- <tr>
-		<td colspan="3">전체 게시글 수 : ${contentcount }</td> --%>
+		
 		<tr>
 				<th>글번호</th>
 				<th>작성자</th>
@@ -24,7 +23,7 @@
 		<c:forEach var="list" items="${list}"> 
 				<th>${list.idx}</th>
 				<th>${list.id}</th>
-				<th><a href="/JSPBook/content.ho?idx=${list.idx}&page=${pagination.page}">${list.title}</a></th>
+				<th><a href="/board/${pagination.page}">${list.title}</a></th>
 				<th>${list.uploadtime}</th>
 				
 		</tr>
@@ -41,7 +40,7 @@
 
 			<c:when test="${ pagination.page > 5}">
 				<li>
-					<a href="board.ho?page=${pagination.prevPage}">
+					<a href="/board/${pagination.prevPage}">
 						◀
 					</a>
 				</li>
@@ -58,7 +57,7 @@
 					</c:when>
 					<c:when test="${ pagination.page ne i }">
 						<li>
-							<a href="board.ho?page=${i}">${i}</a>
+							<a href="/board/${i}">${i}</a>
 						</li>
 					</c:when>
 				</c:choose>
@@ -66,7 +65,7 @@
 		 <c:choose>
 			<c:when test="${ pagination.nextPage lt pagination.lastPage }">
 				<li style="">
-					<a href="board.ho?page=${pagination.nextPage}">▶</a>
+					<a href="/board/${pagination.nextPage}">▶</a>
 				</li>
 			</c:when>
 		</c:choose> 

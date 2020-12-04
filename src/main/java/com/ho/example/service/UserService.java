@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import com.ho.example.domain.Board;
 import com.ho.example.domain.User;
 
 
@@ -35,5 +37,17 @@ public interface UserService extends UserDetailsService{
 	//회원 탈퇴하기
 	public void userDelete(User user);
 
+	//회원 목록 가져오기
+	public	List<User> selectUserList();
+
+	//운영자 권하 부여하기
+	public User createAuthority(String user);
 	
+	// 회원 수 구하기
+	public int getUserCount();
+
+	
+	
+
+				
 }

@@ -2,7 +2,9 @@ package com.ho.example.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,14 +14,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ho.example.domain.Board;
 import com.ho.example.domain.User;
@@ -85,7 +90,7 @@ public class Controller {
 	  user.setEnabled(true);
 	  user.setAccountNonLocked(true);
 	  user.setCredentialsNonExpired(true);
-	  user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_USER"));   
+	  user.setAuthorities(AuthorityUtils.createAuthorityList("ROLE_회원"));   
 	  
 	  
 	  //유저 생성
@@ -113,7 +118,38 @@ public class Controller {
 	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value="/admin")
 	public String admin(Model model) {
+		List<User> list = userservice.selectUserList();
+		int usercount = userservice.getUserCount();
+		model.addAttribute("usercount", usercount);
+		model.addAttribute("list", list);
 		return "/admin";
+	}
+	
+	
+	@RequestMapping(value="/userDetail/{username}")
+	public String userDetail(Model model, @PathVariable String username) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userId = authentication.getName();
+		
+		Collection<GrantedAuthority> user = userservice.getAuthorities(userId);
+		
+		if(user.toString().contains("ROLE_운영자")) {
+		User list = userservice.userInfo(username);
+		model.addAttribute("list", list);
+		return "/userDetail";
+		} else 
+			return "/infofail";
+		
+	}                                         
+	
+	@RequestMapping(value="/setAuth")
+	public String setAuth(User user) {
+		user.setUsername(user.getUsername());
+		user.setuAuth("ROLE_운영자");
+		userservice.createAuthorities(user);
+		return "redirect:/admin";
+       
 	}
 	   
 	@Secured({"ROLE_USER"})
@@ -160,17 +196,19 @@ public class Controller {
 			return "/infofail";
 		
 	 
-	 return "/changePw";
+		return "/changePw";
 	  
-	 }
+	}
 	
-	@RequestMapping(value="/board")
-	public String board(Model model){
-//	count = service.get
-//	Pagination pagination = new Pagination(3, count);
-	List<Board> list = boardservice.selectBoardList();
-	model.addAttribute("list", list);
-	return "/board";
+	@GetMapping({"/board", "/board/{page}"})
+	public String boardList(Model model, @PathVariable Optional<Integer> pageObj) {
+		int page = pageObj.isPresent() ? pageObj.get() : 1;
+	
+		List<Board> list = boardservice.selectBoardList(page);
+		Pagination pagination = new Pagination(page);
+		model.addAttribute("list", list);
+		model.addAttribute("pagination", pagination);
+		return "/board";
 	
 	}
 

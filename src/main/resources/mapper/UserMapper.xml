@@ -108,9 +108,26 @@
    Where u_id = #{username}
    </delete>
    
-   
+   <!-- 회원 목록 가져오기 -->
+	<select id="selectUserList" resultType="User">
+	   SELECT					ta.u_id				username,
+	    						ta.u_name			uName,
+	    						tb.u_auth			uAuth
+	   FROM			user ta
+	   LEFT join	
+	   (	SELECT		ta.u_id,
+			GROUP_CONCAT(ta.u_auth SEPARATOR ",") u_auth
+			FROM			ho_auth ta
+			GROUP BY		ta.u_id
+		)
+		tb ON ta.u_id = tb.u_id
+	</select>
+	
+	<select id="userCount" resultType="int">
+	SELECT COUNT(*) count FROM user
+	</select>
     <!-- 유저 권한 추가 -->
-    <insert id="createAuthority" parameterType="org.springframework.security.core.GrantedAuthority">
+    <insert id="createAuthority" parameterType="User">
        INSERT INTO ho_auth (
           u_id,
           u_auth

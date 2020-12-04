@@ -34,10 +34,13 @@ public interface UserMapper {
 	   //회원 탈퇴하기
 	   public void userDelete(User user);
 
-	
-	
+	   //회원 목록 가져오기
+	   public List<User> selectUserList();
 
-
-
-
+	   //운영자 권한 부여하기
+	   public User createAuthority(String user);
+	   
+	   //전체 회원 수 구하기
+	   public int userCount();
+	  
 }

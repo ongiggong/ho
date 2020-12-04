@@ -13,10 +13,6 @@ public class Pagination {
 	public static final int pageUnit=5;
 	public static final int perPage=3;
 	
-	public Pagination() {
-		
-	}
-	
 	public Pagination(int page, int totalCount) { 
 		this.page = page;
 		this.totalCount = totalCount;

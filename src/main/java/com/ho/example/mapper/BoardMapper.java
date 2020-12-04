@@ -6,5 +6,7 @@ import com.ho.example.domain.Board;
 
 @Mapper
 public interface BoardMapper {
-	public List<Board> selectBoardList();
+	//게시판
+	public List<Board> selectBoardList(int pageNum);
+	
 }

@@ -11,13 +11,10 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired BoardMapper boardmapper;
 	@Override
-	public List<Board> selectBoardList() {
-		return boardmapper.selectBoardList();
+	public List<Board> selectBoardList(int page) {
+		int pageNum = (page-1)*3;
+		return boardmapper.selectBoardList(pageNum);
 	}
-	public int getContentsCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 
 }

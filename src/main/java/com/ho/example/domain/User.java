@@ -2,6 +2,7 @@ package com.ho.example.domain;
 
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
@@ -13,13 +14,12 @@ public class User implements UserDetails {
 	private String username;	
 	private String password;		
 	private String uName;		
-	private String	uAge;
+	private String uAge;
 	private String uEmail;
 	private String uPhone1;
 	private String uPhone2;
 	private String uPhone3;
-	
-	
+	private String uAuth;
 	//security 관련
 	private Collection<? extends GrantedAuthority> authorities;
 	
@@ -27,6 +27,17 @@ public class User implements UserDetails {
 	private boolean isAccountNonLocked;
 	private boolean isCredentialsNonExpired;
 	private boolean isEnabled;
+
+	public String getuAuth() {
+		return uAuth;
+	}
+
+	public void setuAuth(String uAuth) {
+		this.authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(uAuth);
+		this.uAuth = uAuth;
+	}
+
+	
 	
 	public String getUsername() {
 		return username;

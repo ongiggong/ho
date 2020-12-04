@@ -69,5 +69,20 @@ public class UserServiceImpl implements UserService {
 	   public void userDelete(User user) {
 		   userMapper.userDelete(user);
 	   }
-	  
+	   
+	   @Override
+	   public List<User> selectUserList() {
+		   return userMapper.selectUserList();
+		
+	   }
+	 
+	   @Override
+	   public User createAuthority(String user) {
+		   return userMapper.createAuthority(user);
+	   }
+	   
+	   @Override
+	   public int getUserCount() {
+		   return userMapper.userCount();
+	   }
 }
