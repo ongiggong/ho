@@ -1,11 +1,13 @@
 package com.ho.example.controller;
 
+import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.catalina.connector.Response;
@@ -27,11 +29,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ho.example.domain.Board;
+import com.ho.example.domain.Comment;
 import com.ho.example.domain.User;
 import com.ho.example.domain.Pagination;
 import com.ho.example.service.BoardService;
 import com.ho.example.service.UserService;
-
+import com.ho.example.service.CommentService;
 
 
 
@@ -42,7 +45,7 @@ public class Controller {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired UserService userservice;
 	@Autowired BoardService boardservice;
-	
+	@Autowired CommentService commentservice;
 
 
 	@RequestMapping("/")
@@ -200,22 +203,94 @@ public class Controller {
 	  
 	}
 	
-	@GetMapping({"/board", "/board/{page}"})
+	@GetMapping({"/board", "/board/{pageObj}"})
 	public String boardList(Model model, @PathVariable Optional<Integer> pageObj) {
 		int page = pageObj.isPresent() ? pageObj.get() : 1;
-	
+		
+		
+		int totalCount = boardservice.totalCount();
 		List<Board> list = boardservice.selectBoardList(page);
-		Pagination pagination = new Pagination(page);
+		Pagination pagination = new Pagination(page, totalCount);
 		model.addAttribute("list", list);
 		model.addAttribute("pagination", pagination);
 		return "/board";
 	
 	}
 
-	
+	@RequestMapping(value="/board/write")
+	public String write(Model model, User user) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		user.setUsername(authentication.getName());
+		model.addAttribute("session", user);
+		
+		return "/write";
 
+	}
 	
-	 
+	@RequestMapping(value="/post", method = RequestMethod.POST)
+	public String post(Board board) {
+
+		boardservice.boardPost(board);
+		return "redirect:/board";
+		
+	}
+	
+	@RequestMapping(value="/board/page{page}/content{idx}")
+	public String boardContent(Model model, Board board, @PathVariable int page, @PathVariable int idx) {
+		
+		
+		board = boardservice.getContent(idx);
+		board.setIdx(idx);
+		model.addAttribute("content", board);
+		List<Comment> list = commentservice.getComments(idx);
+		model.addAttribute("list", list);
+		model.addAttribute("page", page);
+		return "/board-content";
+	
+	}
+	
+	@RequestMapping(value="/comment/{ref}", method = RequestMethod.POST)
+	public String comment(Board board, Comment comment, @PathVariable int ref) {
+		
+		commentservice.commentPost(comment);
+		return "/comment-success";
+	}
+	
+	@RequestMapping(value="/contentedit/{idx}")
+	public String contentEdit(Model model, Board board, @PathVariable int idx) {
+		
+		
+		board = boardservice.getContent(idx);
+		board.setIdx(idx);
+		model.addAttribute("content", board);
+		return "/contentedit";
+	}
+	
+	@RequestMapping(value="/contentUp", method = RequestMethod.POST)
+	public String contentUp(Board board) {
+		boardservice.contentUp(board);
+		return "/conup-success";
+	}
+	
+	@RequestMapping(value="/contentDel/{idx}")
+	public String contentDel(Board board, @PathVariable int idx) {
+		boardservice.contentDel(idx);
+		return "/condel-success";
+	}
+	
+	@RequestMapping(value="/aj-update-comment/", method = RequestMethod.POST)
+	public String commentUp(Model model, Comment comment) {
+		
+		commentservice.commentUp(comment);
+		List<Comment> list = commentservice.getComments(ref);
+		model.addAttribute("list", list);
+		return "/commentDiv";
+		
+	}	
+	
+//	@RequestMapping(value="/commentDel/{idx}")
+	
 	@RequestMapping(value="/pwUpdate")
 	public String pwUpdate(User user) {
 		
@@ -242,6 +317,7 @@ public class Controller {
 	public String denied(Model model) {
 		return "/denied";
 	   }
+	
 	
 	
 }

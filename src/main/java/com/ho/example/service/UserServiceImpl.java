@@ -14,7 +14,6 @@ import com.ho.example.mapper.UserMapper;
 
 
 @Service
-
 public class UserServiceImpl implements UserService {
 	
 	@Autowired

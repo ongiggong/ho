@@ -8,8 +8,55 @@
 					    b_text as text,
 					    b_uploadtime as uploadtime
 	   	FROM			board ta
-	   	ORDER BY    	ta.idx desc
+	   	ORDER BY    	ta.b_idx desc
 	   	LIMIT  			#{pageNum}, 3
 	</select>
+	
+	<select id="totalCount" resultType="int">
+		SELECT COUNT(*) count FROM board
+	</select>
+	
+	<insert id="boardPost" parameterType ="board">
+	 INSERT INTO board (
+         b_id,
+         b_title,
+         b_text
+           
+      ) VALUES (
+         #{id},
+         #{title},
+         #{text}
+
+      )
+       
+	</insert>
+	
+	<select id="getContent" parameterType="int" resultType="board">
+		
+		SELECT     		b_id 	            	    as id,
+		                b_title						as title,
+		                b_text						as text,
+		                b_uploadtime				as uploadtime
+		FROM         board
+		WHERE         1=1
+		AND            b_idx   =   #{idx} 
+	</select>
+	
+	<update id="contentUp" parameterType="board">
+		
+      UPDATE board SET
+      
+         b_title = #{title},
+         b_text = #{text}
+        
+      WHERE b_idx = #{idx}
+       
+	</update>
+	
+	<delete id="contentDel" parameterType="Board">
+		   Delete from board
+		   Where b_idx = #{idx}
+	</delete>
+	   
 	
 </mapper>

@@ -16,5 +16,29 @@ public class BoardServiceImpl implements BoardService {
 		return boardmapper.selectBoardList(pageNum);
 	}
 	
-
+	@Override
+   public int totalCount() {
+		   return boardmapper.totalCount();
+	}
+	
+	@Override
+	public void boardPost(Board board) {
+		boardmapper.boardPost(board);
+		
+	}
+	
+	@Override
+	public Board getContent(int idx) {
+		return boardmapper.getContent(idx);
+	}
+	
+	@Override
+	public void contentUp(Board board) {
+		boardmapper.contentUp(board);
+	}
+	
+	@Override
+	public void contentDel(int idx) {
+		boardmapper.contentDel(idx);
+	}
 }

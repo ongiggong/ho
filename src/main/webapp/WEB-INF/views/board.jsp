@@ -23,7 +23,7 @@
 		<c:forEach var="list" items="${list}"> 
 				<th>${list.idx}</th>
 				<th>${list.id}</th>
-				<th><a href="/board/${pagination.page}">${list.title}</a></th>
+				<th><a href="/board/page${pagination.page}/content${list.idx}">${list.title}</a></th>
 				<th>${list.uploadtime}</th>
 				
 		</tr>
@@ -79,12 +79,12 @@
 $(function () {
 
 	$(document).on('click', '#btn-write', function () {
-		location.href = "/JSPBook/write.ho";
+		location.href = "/board/write";
 	});
 
 
 	$(document).on('click', '#btn-main', function () {
-		location.href = "/JSPBook/main.ho";
+		location.href = "/";
 	});
 	
 });

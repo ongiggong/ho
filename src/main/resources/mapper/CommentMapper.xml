@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org///DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ho.example.mapper.CommentMapper">
+	 <select id="getComments" resultType="Comment" parameterType="int">
+	 
+	 	SELECT		c_idx 		as 		c_idx,
+	 				c_id 		as 		c_id,
+	 				c_comment 	as 		c_comment,
+	 				c_date 		as 		c_date
+	 
+	  	FROM 		comment 
+	 
+	 	WHERE     	1=1
+	 	AND         c_ref = #{idx}   
+	 </select>
+	 
+	 <insert id="commentPost" parameterType="comment">
+		  INSERT INTO comment (
+	         c_id,
+	         c_idx,
+	         c_comment,
+	         c_ref
+	           
+	      ) VALUES (
+	         #{c_id},
+	         #{c_idx},
+	         #{c_comment},
+	         #{c_ref}
+	
+	      )
+	 </insert>
+	 
+	 <update id="commentUp" parameterType="comment">
+		 UPDATE comment SET
+	         c_comment = #{c_comment},
+	         c_date = now() 
+	     WHERE c_idx = #{c_idx}
+	 </update>
+	 
+	 
+</mapper>
