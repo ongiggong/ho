@@ -37,5 +37,10 @@
 	     WHERE c_idx = #{c_idx}
 	 </update>
 	 
+	 <delete id="commentDel" parameterType="int">
+	 	DELETE from comment
+	 	WHERE c_idx = #{idx}
+	 </delete>
+	 
 	 
 </mapper>

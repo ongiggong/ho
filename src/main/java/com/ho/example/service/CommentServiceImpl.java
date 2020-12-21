@@ -26,6 +26,11 @@ public class CommentServiceImpl implements CommentService {
 		 commentmapper.commentUp(comment);
 	}
 	
+	@Override
+	public void commentDel(int idx) {
+		commentmapper.commentDel(idx);
+	}
+	
 	
 	
 }

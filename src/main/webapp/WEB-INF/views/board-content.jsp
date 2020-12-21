@@ -5,71 +5,66 @@
 <%-- <%@ taglib uri="http://java.sun.com/jsp/jstl/function" prefix="c"%> --%>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<title>${content.title}</title>	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
 	
-<title>${content.title}</title>		
-<table width="1000">
-
-<h1>${content.title}&nbsp;&nbsp;&nbsp;&nbsp;<font size="2">작성자: ${content.id}&nbsp;&nbsp;&nbsp;날짜: ${content.uploadtime}</font>
-	<input type="button" value="목록으로" id="btn-list">&nbsp;&nbsp;&nbsp;&nbsp;
-
-	<br><br><br>
+<div>
+	<h1>
+		${content.title} 
+		<span style="margin-left: 50px; font-size: 10pt;">
+			작성자: ${content.id} 날짜: ${content.uploadtime}
+		</span>
+		<span style="margin-left: 20px;">
+			<input type="button" value="목록으로" id="btn-list">
+		</span>
+	</h1>
+</div>
+<div style="margin-top: 100px; margin-bottom:100px;">
+	${content.text}
+</div>
 	
-	<font size="2">${content.text}</font>
-		
-	<br><br><br>
-	<br><br><br>
-	<br><br><br>
 <sec:authentication property="principal.username" var="sessionId"/>
 <sec:authentication property="principal.authorities" var="auth"/>
 <c:if test= "${content.id == sessionId || auth == '[ROLE_운영자, ROLE_회원]'}">
-	<input type="button" value="수정하기" id="btn-update">
-	<input type="button" value="삭제하기" id="btn-delete">
+	<div>
+		<input type="button" value="수정하기" id="btn-update">
+		<input type="button" value="삭제하기" id="btn-delete">
+	</div>
 </c:if>
-
-
-
 
 <form method="post" action="/comment/${content.idx}">
+<div>
 	<input type="hidden" name="c_id" value="${sessionId}">
 	<input type="hidden" name="c_ref" value="${content.idx}">
-	<font size="2">댓글:&nbsp;&nbsp;<textarea name="c_comment" rows="2" cols="50"> 
-</textarea>
-	
-<input type="submit" value="등록">
+</div>
+<div style ="margin-top: 40px; margin-bottom: 40px">
+	<span style="font-size: 13pt">댓글:</span>
+	<textarea name="c_comment" rows="2" cols="50"></textarea>
+	<input type="submit" value="등록">
+</div>
 </form>
-<br><br>									
 
-<c:forEach var="vo" items="${list}"> 
-<div class="commentList" id="CL">
-	<%-- <jsp:include page="commentDiv.jsp"/> --%>
-<span class = "c_id">${vo.c_id}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span class = "c_comment">${vo.c_comment}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<span class = "c_date">${vo.c_date}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-<c:if test="${vo.c_id == sessionId}">
-	<a href="#" uri="" class="a-update" c_idx="${vo.c_idx}" id = "reply">수정</a>&nbsp;
-	<a href="/commentdel/${vo.c_idx}">삭제</a>
-</c:if>
-
-<div style="padding-top: 10px;">
+<div id="CL">
+	<c:forEach var="vo" items="${list}"> 
+		<div class="commentList" style="margin-bottom: 10px">
+			
+			<span class = "c_id" style="margin-right: 50px; font-weight: bold">${vo.c_id}</span>
+			<span class = "c_comment" style="margin-right: 50px; color: green">${vo.c_comment}</span>
+			<span class = "c_date" style="margin-right: 15px; font-size: 10pt">${vo.c_date}</span>
+			
 		
+			<c:if test="${vo.c_id == sessionId}">
+				<a href="#" uri="" class="a-update" c_idx="${vo.c_idx}" id = "reply">수정</a>
+				<a href="/commentDel/${vo.c_idx}">삭제</a>
+			</c:if>
+		</div>			
+	</c:forEach>
 </div>
-</div>
-			
-</c:forEach>
-	
-</table>
 
-<form action="/aj-update-comment" id="frm-cmt" method="POST">
-	<input type="hidden" name="c_idx">
-	<input type="hidden" name="c_comment">
-</form>
-			
+
 <script>
-
 
 $(function () {
 	$(document).on('click', '#btn-update', function () {
@@ -85,7 +80,7 @@ $(function () {
 		location.href = "/board/${page}"
 	});
 
-
+	
 	$(document).on('click', '.a-update', function () {
 		let aUpdate = $(this).parent().find('.a-update');
 		let uri = aUpdate.attr('uri');
@@ -106,16 +101,12 @@ $(function () {
 			$.ajax({
 				method: "POST",
 				url: "/aj-update-comment",
-				dataType: "text",
-				data: { c_idx: idx, c_comment: commentValue }
+				data: { c_idx: idx, c_comment: commentValue, c_ref: "${content.idx}" }
 			})
 			.done(function( data ) {
 
 			 	$("#CL").html(data);
-				comment.find('input[name="cmtContent"]').remove();
-				comment.append(commentValue);
 				
-				comment.parent().find('.c_date').text(data);
 				 
 				
 				
@@ -125,7 +116,7 @@ $(function () {
 				
 			})
 						
-			//location.href = uri;
+		
 		}
 		
 	});

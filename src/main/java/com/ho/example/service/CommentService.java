@@ -21,6 +21,9 @@ public interface CommentService {
 	public void commentUp(Comment comment);
 
 
+	public void commentDel(int idx);
+
+
 	
 
 }

@@ -279,17 +279,21 @@ public class Controller {
 		return "/condel-success";
 	}
 	
-	@RequestMapping(value="/aj-update-comment/", method = RequestMethod.POST)
+	@RequestMapping(value="/aj-update-comment", method = RequestMethod.POST)
 	public String commentUp(Model model, Comment comment) {
 		
 		commentservice.commentUp(comment);
-		List<Comment> list = commentservice.getComments(ref);
+		List<Comment> list = commentservice.getComments(comment.getC_ref());
 		model.addAttribute("list", list);
 		return "/commentDiv";
 		
 	}	
 	
-//	@RequestMapping(value="/commentDel/{idx}")
+	@RequestMapping(value="/commentDel/{idx}")
+	public String commentDel(@PathVariable int idx) {
+		commentservice.commentDel(idx);
+		return "/commentdel-success";
+	}
 	
 	@RequestMapping(value="/pwUpdate")
 	public String pwUpdate(User user) {
