@@ -3,12 +3,13 @@ package com.ho.example.service;
 import java.util.ArrayList;
 import java.util.List;
 import com.ho.example.domain.Board;
+import com.ho.example.domain.Pagination;
 import com.ho.example.domain.User;
 
 
 public interface BoardService {
 	
-	public List<Board> selectBoardList(int page);
+	public List<Board> selectBoardList(Pagination pageParam);
 
 	// 총 게시글 수 구하기
 	public int totalCount();
@@ -24,6 +25,10 @@ public interface BoardService {
 
 	//게시글 삭제하기
 	public void contentDel(int idx);
+
+	
+
+	
 
 	
 

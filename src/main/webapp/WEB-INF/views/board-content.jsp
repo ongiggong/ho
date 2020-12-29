@@ -21,7 +21,7 @@
 		</span>
 	</h1>
 </div>
-<div style="margin-top: 100px; margin-bottom:100px;">
+<div style="margin-top: 100px; margin-bottom:300px;">
 	${content.text}
 </div>
 	
@@ -56,8 +56,8 @@
 			
 		
 			<c:if test="${vo.c_id == sessionId}">
-				<a href="#" uri="" class="a-update" c_idx="${vo.c_idx}" id = "reply">수정</a>
-				<a href="/commentDel/${vo.c_idx}">삭제</a>
+				<a href="#" uri="" class="a-update" c_idx="${vo.c_idx}" id = "reply" style="font-size: 9pt; font-weight: bold" >수정</a>
+				<a href="/commentDel/${vo.c_idx}" style="font-size: 9pt; font-weight: bold" >삭제</a>
 			</c:if>
 		</div>			
 	</c:forEach>
@@ -104,7 +104,7 @@ $(function () {
 				data: { c_idx: idx, c_comment: commentValue, c_ref: "${content.idx}" }
 			})
 			.done(function( data ) {
-
+				
 			 	$("#CL").html(data);
 				
 				 

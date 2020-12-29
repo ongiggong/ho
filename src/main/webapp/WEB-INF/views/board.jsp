@@ -34,6 +34,7 @@
 		</table>
 		
 		
+		
 <div>
 	<ul>
 		 <c:choose>
@@ -73,6 +74,19 @@
 	</ul>
 </div>
 
+<div id="search" style="text-align: center; margin-top: 75px">
+	<form id="searchForm" action="/searchList" method="get">
+		<select name="type">
+			<option value="">선택</option>
+			<option value="T">제목</option>
+			<option value="C">내용</option>
+			<option value="W">작성자</option>
+			<option value="TC">제목과 내용</option>
+		</select>
+		<input type="text" name="keyword" />
+		<button id="searchBtn">검색</button>
+	</form>
+</div>
 
 
 	<script>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org///DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ho.example.mapper.BoardMapper">
-	<select id="selectBoardList" resultType="Board" parameterType="int">
+	<select id="selectBoardList" resultType="Board" parameterType="Pagination">
 		SELECT			b_idx as idx,
 					    b_id as id,
 					    b_title as title,
@@ -10,8 +10,12 @@
 	   	FROM			board ta
 	   	ORDER BY    	ta.b_idx desc
 	   	LIMIT  			#{pageNum}, 3
+	   	WHERE
+	   	
 	</select>
 	
+	
+ 
 	<select id="totalCount" resultType="int">
 		SELECT COUNT(*) count FROM board
 	</select>

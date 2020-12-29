@@ -4,7 +4,9 @@ import java.io.PrintWriter;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.RequestDispatcher;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ho.example.domain.Board;
 import com.ho.example.domain.Comment;
@@ -203,20 +206,37 @@ public class Controller {
 	  
 	}
 	
-	@GetMapping({"/board", "/board/{pageObj}"})
-	public String boardList(Model model, @PathVariable Optional<Integer> pageObj) {
-		int page = pageObj.isPresent() ? pageObj.get() : 1;
+//	@GetMapping({"/board", "/board/{pageObj}/{type}/{keyword}"})
+//	public String boardList(Model model, @PathVariable Optional<Integer> pageObj) {
+//		int page = pageObj.isPresent() ? pageObj.get() : 1;
+//		
+//		
+//		int totalCount = boardservice.totalCount();
+//		List<Board> list = boardservice.selectBoardList(page);
+//		Pagination pagination = new Pagination(page, totalCount);
+//		model.addAttribute("list", list);
+//		model.addAttribute("pagination", pagination);
+//		return "/board";
+//	
+//	}
+	
+	
+	@RequestMapping(value="/board")
+	public String boardList(Model model, Pagination pageParam) {
 		
+		int page = pageParam.getPage();
 		
 		int totalCount = boardservice.totalCount();
-		List<Board> list = boardservice.selectBoardList(page);
+		List<Board> list = boardservice.selectBoardList(pageParam);
 		Pagination pagination = new Pagination(page, totalCount);
 		model.addAttribute("list", list);
 		model.addAttribute("pagination", pagination);
 		return "/board";
 	
 	}
-
+	
+	
+	
 	@RequestMapping(value="/board/write")
 	public String write(Model model, User user) {
 		

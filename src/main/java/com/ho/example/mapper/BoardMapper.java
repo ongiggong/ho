@@ -3,6 +3,7 @@ package com.ho.example.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import com.ho.example.domain.Board;
+import com.ho.example.domain.Pagination;
 
 @Mapper
 public interface BoardMapper {
@@ -24,4 +25,7 @@ public interface BoardMapper {
 	//게시글 삭제하기
 	public void contentDel(int idx);
 
+	
+
+	
 }

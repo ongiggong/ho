@@ -12,7 +12,25 @@ public class Pagination {
 	int nextPage;
 	public static final int pageUnit=5;
 	public static final int perPage=3;
+	private String type;
+	private String keyword;
 	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
 	public Pagination(int page, int totalCount) { 
 		this.page = page;
 		this.totalCount = totalCount;
@@ -107,6 +125,9 @@ public class Pagination {
 		this.totalCount = totalCount;
 	}
 	
+	public String[] getTypeArr() {
+		return type == null? new String[] {}: type.split("");
+	}
 	
 	
 
