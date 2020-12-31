@@ -41,6 +41,7 @@ public class Pagination {
 		endPage = endPage < lastPage ? endPage : lastPage;
 		prevPage=(endPage-pageUnit);
 		nextPage=(startPage+pageUnit);
+		pageNum = (page-1)*3;
 	
 	}
 

@@ -13,8 +13,7 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired BoardMapper boardmapper;
 	@Override
 	public List<Board> selectBoardList(Pagination pageParam) {
-		int pageNum = ((pageParam.getPage())-1)*3;
-		return boardmapper.selectBoardList(pageNum);
+		   return boardmapper.selectBoardList(pageParam);
 	}
 	
 	@Override

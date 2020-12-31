@@ -75,7 +75,7 @@
 </div>
 
 <div id="search" style="text-align: center; margin-top: 75px">
-	<form id="searchForm" action="/searchList" method="get">
+	<form id="searchForm" action="/board" method="get">
 		<select name="type">
 			<option value="">선택</option>
 			<option value="T">제목</option>
@@ -85,6 +85,7 @@
 		</select>
 		<input type="text" name="keyword" />
 		<button id="searchBtn">검색</button>
+		<input type="hidden" name="page" value="${pagination.page}">
 	</form>
 </div>
 

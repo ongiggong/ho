@@ -221,14 +221,14 @@ public class Controller {
 //	}
 	
 	
-	@RequestMapping(value="/board")
-	public String boardList(Model model, Pagination pageParam) {
+	@RequestMapping(value="/board", method=RequestMethod.GET)
+	public String boardList(Model model, Pagination pageParam, @RequestParam int page) {
 		
-		int page = pageParam.getPage();
 		
 		int totalCount = boardservice.totalCount();
-		List<Board> list = boardservice.selectBoardList(pageParam);
+		List<Board> list = boardservice.selectBoardList(page);
 		Pagination pagination = new Pagination(page, totalCount);
+		
 		model.addAttribute("list", list);
 		model.addAttribute("pagination", pagination);
 		return "/board";

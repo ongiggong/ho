@@ -9,16 +9,19 @@
 					    b_uploadtime as uploadtime
 	   	FROM			board ta
 	   	ORDER BY    	ta.b_idx desc
-	   	LIMIT  			#{pageNum}, 3
-	   	WHERE
+	   	LIMIT  			#{pageParam.pageNum}, 3
+	   	WHERE			
+	   	<if test="#{pageParam.type}!=null and (#{pageParam.type}equals('T')">
+	   	b_title like CONCAT('%',#{pageParam.keyword},'%')
+	   	</if>
 	   	
 	</select>
 	
-	
- 
-	<select id="totalCount" resultType="int">
+	 
+	<!-- <select id="totalCount" resultType="int">
 		SELECT COUNT(*) count FROM board
-	</select>
+		<if test="#{pageParam.type}!=null and (#{pageParam.type}equals('T')">
+	</select> -->
 	
 	<insert id="boardPost" parameterType ="board">
 	 INSERT INTO board (

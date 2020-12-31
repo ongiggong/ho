@@ -8,7 +8,7 @@ import com.ho.example.domain.Pagination;
 @Mapper
 public interface BoardMapper {
 	//게시판
-	public List<Board> selectBoardList(int pageNum);
+	public List<Board> selectBoardList(Pagination pageParam);
 	
 	//총 게시글 수
 	public int totalCount();
