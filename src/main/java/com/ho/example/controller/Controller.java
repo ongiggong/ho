@@ -35,6 +35,7 @@ import com.ho.example.domain.Board;
 import com.ho.example.domain.Comment;
 import com.ho.example.domain.User;
 import com.ho.example.domain.Pagination;
+import com.ho.example.domain.Search;
 import com.ho.example.service.BoardService;
 import com.ho.example.service.UserService;
 import com.ho.example.service.CommentService;
@@ -206,34 +207,24 @@ public class Controller {
 	  
 	}
 	
-//	@GetMapping({"/board", "/board/{pageObj}/{type}/{keyword}"})
-//	public String boardList(Model model, @PathVariable Optional<Integer> pageObj) {
-//		int page = pageObj.isPresent() ? pageObj.get() : 1;
-//		
-//		
-//		int totalCount = boardservice.totalCount();
-//		List<Board> list = boardservice.selectBoardList(page);
-//		Pagination pagination = new Pagination(page, totalCount);
-//		model.addAttribute("list", list);
-//		model.addAttribute("pagination", pagination);
-//		return "/board";
-//	
-//	}
-	
-	
-	@RequestMapping(value="/board", method=RequestMethod.GET)
-	public String boardList(Model model, Pagination pageParam, @RequestParam int page) {
+	@RequestMapping(value="/board/{page}/{type}/{keyword}", method=RequestMethod.GET)
+	public String boardList(Model model, @PathVariable Optional<Integer> page, @PathVariable String keyword, @PathVariable String type) {
 		
-		
-		int totalCount = boardservice.totalCount();
-		List<Board> list = boardservice.selectBoardList(page);
-		Pagination pagination = new Pagination(page, totalCount);
-		
-		model.addAttribute("list", list);
-		model.addAttribute("pagination", pagination);
+		logger.debug("page:"+page);
+		/*
+		 * int page = pageObj.isPresent() ? pageObj.get() : 1;
+		 * 
+		 * 
+		 * pagination.setPage(page); search.setKeyword(keyword); search.setType(type);
+		 * int totalCount = boardservice.totalCount(search); List<Board> list =
+		 * boardservice.selectBoardList(pagination); Pagination pag = new
+		 * Pagination(page, totalCount); model.addAttribute("list", list);
+		 * model.addAttribute("pagination", pag);
+		 */
 		return "/board";
 	
 	}
+	
 	
 	
 	

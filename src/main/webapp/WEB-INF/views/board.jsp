@@ -84,8 +84,9 @@
 			<option value="TC">제목과 내용</option>
 		</select>
 		<input type="text" name="keyword" />
+		<input type="hidden" name="page" value="${pagination.page}"/>
 		<button id="searchBtn">검색</button>
-		<input type="hidden" name="page" value="${pagination.page}">
+		
 	</form>
 </div>
 

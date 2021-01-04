@@ -4,14 +4,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import com.ho.example.domain.Board;
 import com.ho.example.domain.Pagination;
+import com.ho.example.domain.Search;
 
 @Mapper
 public interface BoardMapper {
 	//게시판
-	public List<Board> selectBoardList(Pagination pageParam);
+	public List<Board> selectBoardList(Pagination pagination);
 	
 	//총 게시글 수
-	public int totalCount();
+	public int totalCount(Search search);
 
 	// 게시글 올리기
 	public void boardPost(Board board);

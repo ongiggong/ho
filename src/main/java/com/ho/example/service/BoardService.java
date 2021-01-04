@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import com.ho.example.domain.Board;
 import com.ho.example.domain.Pagination;
+import com.ho.example.domain.Search;
 import com.ho.example.domain.User;
 
 
 public interface BoardService {
 	
-	public List<Board> selectBoardList(Pagination pageParam);
+	public List<Board> selectBoardList(Pagination pagination);
 
 	// 총 게시글 수 구하기
-	public int totalCount();
+	public int totalCount(Search search);
 
 	// 게시글 올리기
 	public void boardPost(Board board);

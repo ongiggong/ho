@@ -1,5 +1,8 @@
 package com.ho.example.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Pagination {
 	int contentCount;
 	int totalCount;
@@ -12,24 +15,23 @@ public class Pagination {
 	int nextPage;
 	public static final int pageUnit=5;
 	public static final int perPage=3;
-	private String type;
-	private String keyword;
+	private Search search;
 	
-	public String getType() {
-		return type;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	
+
+	public Search getSearch() {
+		return search;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setSearch(Search search) {
+		this.search = search;
 	}
+	
+/*	public Pagination() {
 
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
+	}*/
 
 	public Pagination(int page, int totalCount) { 
 		this.page = page;
@@ -42,6 +44,9 @@ public class Pagination {
 		prevPage=(endPage-pageUnit);
 		nextPage=(startPage+pageUnit);
 		pageNum = (page-1)*3;
+		
+		logger.debug("page:" + this.page);
+		logger.debug("totalCount:" + this.totalCount);
 	
 	}
 
@@ -126,9 +131,6 @@ public class Pagination {
 		this.totalCount = totalCount;
 	}
 	
-	public String[] getTypeArr() {
-		return type == null? new String[] {}: type.split("");
-	}
 	
 	
 

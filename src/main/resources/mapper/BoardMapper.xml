@@ -9,19 +9,44 @@
 					    b_uploadtime as uploadtime
 	   	FROM			board ta
 	   	ORDER BY    	ta.b_idx desc
-	   	LIMIT  			#{pageParam.pageNum}, 3
+	   	LIMIT  			#{pageNum}, 3
 	   	WHERE			
-	   	<if test="#{pageParam.type}!=null and (#{pageParam.type}equals('T')">
-	   	b_title like CONCAT('%',#{pageParam.keyword},'%')
-	   	</if>
+	   	<if test="#{Search.type}!=null and (#{Search.type}equals('T')">
+		b_title LIKE CONCAT('%',#{Search.keyword},'%')
+		</if>
+		<if test="#{Search.type}!=null and (#{Search.type}equals('C')">
+		b_text LIKE CONCAT('%',#{Search.keyword},'%')
+		</if>
+		<if test="#{Search.type}!=null and (#{Search.type}equals('W')">
+		b_id LIKE CONCAT('%',#{Search.keyword},'%')
+		</if>
+		<if test="#{Search.type}!=null and (#{Search.type}equals('TC')">
+		b_id LIKE CONCAT('%',#{Search.keyword},'%')
+		or b_text LIKE CONCAT('%',#{Search.keyword},'%')
+		</if>
 	   	
 	</select>
 	
 	 
-	<!-- <select id="totalCount" resultType="int">
-		SELECT COUNT(*) count FROM board
-		<if test="#{pageParam.type}!=null and (#{pageParam.type}equals('T')">
-	</select> -->
+	<select id="totalCount" parameterType ="Search" resultType="int">
+		
+		SELECT COUNT(*) count 
+		FROM board
+		WHERE
+		<if test="#{type}!=null and (#{type}equals('T')">
+		b_title LIKE CONCAT('%',#{keyword},'%')
+		</if>
+		<if test="#{type}!=null and (#{type}equals('C')">
+		b_text LIKE CONCAT('%',#{keyword},'%')
+		</if>
+		<if test="#{type}!=null and (#{type}equals('W')">
+		b_id LIKE CONCAT('%',#{keyword},'%')
+		</if>
+		<if test="#{type}!=null and (#{type}equals('TC')">
+		b_id LIKE CONCAT('%',#{keyword},'%')
+		or b_text LIKE CONCAT('%',#{keyword},'%')
+		</if>
+	</select>
 	
 	<insert id="boardPost" parameterType ="board">
 	 INSERT INTO board (
