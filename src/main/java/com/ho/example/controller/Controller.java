@@ -207,21 +207,29 @@ public class Controller {
 	  
 	}
 	
-	@RequestMapping(value="/board/{page}/{type}/{keyword}", method=RequestMethod.GET)
-	public String boardList(Model model, @PathVariable Optional<Integer> page, @PathVariable String keyword, @PathVariable String type) {
+	@RequestMapping(value= {"/board","/board/{page}{type}{keyword}"})
+	public String boardList(Model model, Search search,
+			@RequestParam(value="page", required=false, defaultValue="1") int page,
+			@RequestParam(value="type", required=false, defaultValue= "null") String type,
+			@RequestParam(value="keyword", required=false, defaultValue= "null") String keyword) {
 		
-		logger.debug("page:"+page);
-		/*
-		 * int page = pageObj.isPresent() ? pageObj.get() : 1;
-		 * 
-		 * 
-		 * pagination.setPage(page); search.setKeyword(keyword); search.setType(type);
-		 * int totalCount = boardservice.totalCount(search); List<Board> list =
-		 * boardservice.selectBoardList(pagination); Pagination pag = new
-		 * Pagination(page, totalCount); model.addAttribute("list", list);
-		 * model.addAttribute("pagination", pag);
-		 */
-		return "/board";
+		logger.debug("keyword : " +keyword);
+		logger.debug("type : " + type);
+		logger.debug("page: " + page);
+		
+		search.setKeyword(keyword);
+		search.setType(type);
+		int totalCount = boardservice.totalCount(search);
+		return"/board";
+		
+		 
+//		 pagination.setPage(page); search.setKeyword(keyword); search.setType(type);
+//		 int totalCount = boardservice.totalCount(search); List<Board> list =
+//		 boardservice.selectBoardList(pagination); Pagination pag = new
+//		 Pagination(page, totalCount); model.addAttribute("list", list);
+//		 model.addAttribute("pagination", pag);
+//		
+		
 	
 	}
 	

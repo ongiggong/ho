@@ -10,21 +10,21 @@
 	   	FROM			board ta
 	   	ORDER BY    	ta.b_idx desc
 	   	LIMIT  			#{pageNum}, 3
-	   	WHERE			
-	   	<if test="#{Search.type}!=null and (#{Search.type}equals('T')">
-		b_title LIKE CONCAT('%',#{Search.keyword},'%')
-		</if>
-		<if test="#{Search.type}!=null and (#{Search.type}equals('C')">
-		b_text LIKE CONCAT('%',#{Search.keyword},'%')
-		</if>
-		<if test="#{Search.type}!=null and (#{Search.type}equals('W')">
-		b_id LIKE CONCAT('%',#{Search.keyword},'%')
-		</if>
-		<if test="#{Search.type}!=null and (#{Search.type}equals('TC')">
-		b_id LIKE CONCAT('%',#{Search.keyword},'%')
-		or b_text LIKE CONCAT('%',#{Search.keyword},'%')
-		</if>
-	   	
+	   	<if test="#{Search.type} != null">
+		   	<if test= "#{Search.type}==('T')">
+			WHERE	b_title LIKE CONCAT('%',#{Search.keyword},'%')
+			</if>
+			<if test= "#{Search.type}==('C')">
+			WHERE	b_text LIKE CONCAT('%',#{Search.keyword},'%')
+			</if>
+			<if test= "#{Search.type}==('W')">
+			WHERE	b_id LIKE CONCAT('%',#{Search.keyword},'%')
+			</if>
+			<if test= "#{Search.type}==('TC')">
+			WHERE	b_id LIKE CONCAT('%',#{Search.keyword},'%')
+			or b_text LIKE CONCAT('%',#{Search.keyword},'%')
+			</if>
+	   	</if>
 	</select>
 	
 	 
@@ -32,20 +32,21 @@
 		
 		SELECT COUNT(*) count 
 		FROM board
-		WHERE
-		<if test="#{type}!=null and (#{type}equals('T')">
-		b_title LIKE CONCAT('%',#{keyword},'%')
-		</if>
-		<if test="#{type}!=null and (#{type}equals('C')">
-		b_text LIKE CONCAT('%',#{keyword},'%')
-		</if>
-		<if test="#{type}!=null and (#{type}equals('W')">
-		b_id LIKE CONCAT('%',#{keyword},'%')
-		</if>
-		<if test="#{type}!=null and (#{type}equals('TC')">
-		b_id LIKE CONCAT('%',#{keyword},'%')
-		or b_text LIKE CONCAT('%',#{keyword},'%')
-		</if>
+		<if test="#{type} != ">
+		   	<if test= "#{type}==('T')">
+			WHERE	b_title LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test= "#{type}==('C')">
+			WHERE	b_text LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test= "#{type}==('W')">
+			WHERE	b_id LIKE CONCAT('%',#{keyword},'%')
+			</if>
+			<if test= "#{type}==('TC')">
+			WHERE	b_id LIKE CONCAT('%',#{keyword},'%')
+			or b_text LIKE CONCAT('%',#{keyword},'%')
+			</if>
+	   	</if>
 	</select>
 	
 	<insert id="boardPost" parameterType ="board">
