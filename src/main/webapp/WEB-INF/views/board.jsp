@@ -75,8 +75,8 @@
 </div>
 
 <div id="search" style="text-align: center; margin-top: 75px">
-	<form id="searchForm" action="/board" method="get">
-		<select name="type">
+	
+		<select name="type" >
 			<option value="">선택</option>
 			<option value="T">제목</option>
 			<option value="C">내용</option>
@@ -84,14 +84,16 @@
 			<option value="TC">제목과 내용</option>
 		</select>
 		<input type="text" name="keyword" />
-		<input type="hidden" name="page" value="${pagination.page}"/>
-		<button id="searchBtn">검색</button>
+		<input type="hidden" name="page" value="${pagination.page}" id="page"/>
+		<input type="button" value="검색" id="btn-search"/>
 		
-	</form>
+	
 </div>
 
 
-	<script>
+<script>
+
+
 $(function () {
 
 	$(document).on('click', '#btn-write', function () {
@@ -101,6 +103,18 @@ $(function () {
 
 	$(document).on('click', '#btn-main', function () {
 		location.href = "/";
+	});
+
+	$(document).on('click', '#btn-search', function () {
+		let keyword = $(this).parent().find('input[name="keyword"]').val();
+		let type = $(this).parent().find('select[name="type"]').val();
+		
+		if(keyword!='' && type!='') {
+			location.href = "/board/"+${pagination.page}+"/"+type+"/"+keyword;
+		} else {
+			alert("검색어가 제대로 입력되지 않았습니다.");
+			location.reload();
+		}
 	});
 	
 });

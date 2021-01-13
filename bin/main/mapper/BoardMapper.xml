@@ -8,23 +8,22 @@
 					    b_text as text,
 					    b_uploadtime as uploadtime
 	   	FROM			board ta
-	   	ORDER BY    	ta.b_idx desc
+	   	
+	     	<if test='search.type.equals("T")'>
+				WHERE	b_title LIKE CONCAT('%',#{search.keyword},'%')
+			</if>
+			<if test='search.type.equals("C")'>
+				WHERE	b_text LIKE CONCAT('%',#{search.keyword},'%')
+			</if>
+			<if test='search.type.equals("W")'>
+				WHERE	b_id LIKE CONCAT('%',#{search.keyword},'%')
+			</if>
+			<if test='search.type.equals("TC")'>
+				WHERE	b_title LIKE CONCAT('%',#{search.keyword},'%')
+			or b_text LIKE CONCAT('%',#{search.keyword},'%')
+			</if>
+		ORDER BY    	ta.b_idx desc
 	   	LIMIT  			#{pageNum}, 3
-	   	<if test="#{Search.type} != null">
-		   	<if test= "#{Search.type}==('T')">
-			WHERE	b_title LIKE CONCAT('%',#{Search.keyword},'%')
-			</if>
-			<if test= "#{Search.type}==('C')">
-			WHERE	b_text LIKE CONCAT('%',#{Search.keyword},'%')
-			</if>
-			<if test= "#{Search.type}==('W')">
-			WHERE	b_id LIKE CONCAT('%',#{Search.keyword},'%')
-			</if>
-			<if test= "#{Search.type}==('TC')">
-			WHERE	b_id LIKE CONCAT('%',#{Search.keyword},'%')
-			or b_text LIKE CONCAT('%',#{Search.keyword},'%')
-			</if>
-	   	</if>
 	</select>
 	
 	 
@@ -32,21 +31,19 @@
 		
 		SELECT COUNT(*) count 
 		FROM board
-		<if test="#{type} != ">
-		   	<if test= "#{type}==('T')">
+		<if test='type.equals("T")'>
 			WHERE	b_title LIKE CONCAT('%',#{keyword},'%')
-			</if>
-			<if test= "#{type}==('C')">
+		</if>
+		<if test='type.equals("C")'>
 			WHERE	b_text LIKE CONCAT('%',#{keyword},'%')
-			</if>
-			<if test= "#{type}==('W')">
+		</if>
+		<if test='type.equals("W")'>
 			WHERE	b_id LIKE CONCAT('%',#{keyword},'%')
-			</if>
-			<if test= "#{type}==('TC')">
-			WHERE	b_id LIKE CONCAT('%',#{keyword},'%')
+		</if>
+		<if test='type.equals("TC")'>
+			WHERE	b_title LIKE CONCAT('%',#{keyword},'%')
 			or b_text LIKE CONCAT('%',#{keyword},'%')
-			</if>
-	   	</if>
+		</if>
 	</select>
 	
 	<insert id="boardPost" parameterType ="board">

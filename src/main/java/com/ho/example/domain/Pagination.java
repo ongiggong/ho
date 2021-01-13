@@ -15,25 +15,6 @@ public class Pagination {
 	int nextPage;
 	public static final int pageUnit=5;
 	public static final int perPage=3;
-	String type;
-	String keyword;
-	
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
-
 	private Search search;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
